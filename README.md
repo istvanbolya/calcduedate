@@ -6,10 +6,10 @@ A module to calculate issue resolve date.
 * [Unittests](#unittests)
 
 ## Installation
-The application uses base Python3.x libraries only.
+The module uses base Python3.x libraries only.
 
 I suggest to use [virtualenv](https://www.pythonforbeginners.com/basics/how-to-use-python-virtualenv) with Python 3.x.
-After installing virtualenv, create a new one for the application:
+After installing virtualenv, create a new one for the module:
 
 ```
 mkdir ~/calcduedate
