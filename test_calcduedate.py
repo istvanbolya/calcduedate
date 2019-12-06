@@ -56,15 +56,19 @@ class CalcDueDateTest(TestCase):
         turnaround_time = 16
         self.calcduedate._set_days_hours_to_resolve(turnaround_time)
         self.assertEqual(self.calcduedate.workdays_to_resolve, 2)
-        self.assertEqual(self.calcduedate.hours_to_resolve, 0)
+        self.assertEqual(self.calcduedate.workhours_to_resolve, 0)
+        turnaround_time = 0
+        self.calcduedate._set_days_hours_to_resolve(turnaround_time)
+        self.assertEqual(self.calcduedate.workdays_to_resolve, 0)
+        self.assertEqual(self.calcduedate.workhours_to_resolve, 0)
         turnaround_time = 49
         self.calcduedate._set_days_hours_to_resolve(turnaround_time)
         self.assertEqual(self.calcduedate.workdays_to_resolve, 6)
-        self.assertEqual(self.calcduedate.hours_to_resolve, 1)
+        self.assertEqual(self.calcduedate.workhours_to_resolve, 1)
         turnaround_time = 7
         self.calcduedate._set_days_hours_to_resolve(turnaround_time)
         self.assertEqual(self.calcduedate.workdays_to_resolve, 0)
-        self.assertEqual(self.calcduedate.hours_to_resolve, 7)
+        self.assertEqual(self.calcduedate.workhours_to_resolve, 7)
         turnaround_time = '16'
         with self.assertRaises(CalcDueDateException) as context:
             self.calcduedate._set_days_hours_to_resolve(turnaround_time)
@@ -81,16 +85,16 @@ class CalcDueDateTest(TestCase):
         self.calcduedate.submit_datetime = datetime.datetime(**submit_datetime_values)
 
         self.calcduedate.workdays_to_resolve = 1
-        self.calcduedate.hours_to_resolve = 7
+        self.calcduedate.workhours_to_resolve = 7
         self.calcduedate._increase_resolve_hours()
         self.assertEqual(self.calcduedate.workdays_to_resolve, 2)
-        self.assertEqual(self.calcduedate.workhour_for_resolve, 11)
+        self.assertEqual(self.calcduedate.hour_for_resolve, 11)
 
         self.calcduedate.workdays_to_resolve = 1
-        self.calcduedate.hours_to_resolve = 4
+        self.calcduedate.workhours_to_resolve = 4
         self.calcduedate._increase_resolve_hours()
         self.assertEqual(self.calcduedate.workdays_to_resolve, 1)
-        self.assertEqual(self.calcduedate.workhour_for_resolve, 16)
+        self.assertEqual(self.calcduedate.hour_for_resolve, 16)
 
     def test_increase_resolve_days(self):
         submit_datetime_values = {
@@ -125,7 +129,7 @@ class CalcDueDateTest(TestCase):
         self.calcduedate.submit_datetime = datetime.datetime(**submit_datetime_values)
 
         self.calcduedate.workdays_to_resolve = 6
-        self.calcduedate.workhour_for_resolve = 12
+        self.calcduedate.hour_for_resolve = 12
         resolve_datetime_values = {
             'year': 2019,
             'month': 12,
@@ -139,7 +143,7 @@ class CalcDueDateTest(TestCase):
         self.assertEqual(self.calcduedate.issue_resolved, resolve_datetime)
 
         self.calcduedate.workdays_to_resolve = 0
-        self.calcduedate.workhour_for_resolve = 12
+        self.calcduedate.hour_for_resolve = 12
         resolve_datetime_values = {
             'year': 2019,
             'month': 12,
@@ -162,7 +166,7 @@ class CalcDueDateTest(TestCase):
         self.calcduedate.submit_datetime = datetime.datetime(**submit_datetime_values)
 
         self.calcduedate.workdays_to_resolve = 2
-        self.calcduedate.workhour_for_resolve = 9
+        self.calcduedate.hour_for_resolve = 9
         resolve_datetime_values = {
             'year': 2019,
             'month': 12,

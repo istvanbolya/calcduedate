@@ -19,8 +19,8 @@ class CalcDueDate:
         self.working_hours = [self.DEFAULT_WORKING_HOUR_START,
                               self.DEFAULT_WORKING_HOUR_START + self.DEFAULT_WORKING_HOUR_PER_DAY]
         self.workdays_to_resolve = None
-        self.hours_to_resolve = None
-        self.workhour_for_resolve = None
+        self.workhours_to_resolve = None
+        self.hour_for_resolve = None
         self.issue_resolved = None
 
     def _validate_datetime_format(self, submit_datetime_str):
@@ -38,18 +38,18 @@ class CalcDueDate:
     def _set_days_hours_to_resolve(self, turnaround_time):
         try:
             self.workdays_to_resolve = turnaround_time // self.working_hour_per_day
-            self.hours_to_resolve = turnaround_time % self.working_hour_per_day
+            self.workhours_to_resolve = turnaround_time % self.working_hour_per_day
         except TypeError:
             raise CalcDueDateException('Cannot get days and hours for resolve! Turnaround time: {}'.format(
                 turnaround_time))
 
     def _increase_resolve_hours(self):
-        issue_hour = self.submit_datetime.hour + self.hours_to_resolve
-        self.workhour_for_resolve = issue_hour
+        issue_hour = self.submit_datetime.hour + self.workhours_to_resolve
+        self.hour_for_resolve = issue_hour
         if issue_hour >= self.working_hours[1]:
             issue_diff = issue_hour - self.working_hours[1]
             self.workdays_to_resolve += 1
-            self.workhour_for_resolve = self.working_hours[0] + issue_diff
+            self.hour_for_resolve = self.working_hours[0] + issue_diff
 
     def _increase_resolve_days(self):
         calculated_resolve_days = self.workdays_to_resolve
@@ -69,7 +69,7 @@ class CalcDueDate:
             'days': self.workdays_to_resolve,
         }
         self.issue_resolved = (self.submit_datetime + datetime.timedelta(**issue_resolved_values))\
-            .replace(hour=self.workhour_for_resolve)
+            .replace(hour=self.hour_for_resolve)
 
     def calculate(self, submit_datetime, turnaround_time):
         self._validate_datetime_format(submit_datetime)
