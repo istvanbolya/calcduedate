@@ -10,6 +10,7 @@ class CalcDueDate:
     DEFAULT_DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
     DEFAULT_WORKING_HOURS_PER_DAY = 8
     DEFAULT_WORKING_HOUR_START = 9
+    DEFAULT_SATURDAY_WEEKDAY = 5
 
     def __init__(self):
         self.submit_datetime = None
@@ -57,7 +58,7 @@ class CalcDueDate:
         while current_day < self.workdays_to_resolve:
             submit_date += datetime.timedelta(days=1)
             current_weekday = submit_date.weekday()
-            if current_weekday == 5:
+            if current_weekday == self.DEFAULT_SATURDAY_WEEKDAY:
                 calculated_resolve_days += 2
                 current_day += 1
             current_day += 1
