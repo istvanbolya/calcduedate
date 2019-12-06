@@ -36,6 +36,6 @@ The module contains a `run_calcduedate.py` script, which shows the basic usage:
 If there is a validation/calculation issue, the module will raise a `CalcDueDateException`.
 
 ## Unittests
-You can run the unittests by executing the unittest module under the module directory in virtualenv:
+You can run the unittests by executing unittest under the module directory in virtualenv:
  
  `python -m unittest`
