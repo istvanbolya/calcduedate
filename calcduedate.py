@@ -8,16 +8,15 @@ class CalcDueDateException(BaseException):
 class CalcDueDate:
 
     DEFAULT_DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
-    DEFAULT_WORKING_HOUR_PER_DAY = 8
+    DEFAULT_WORKING_HOURS_PER_DAY = 8
     DEFAULT_WORKING_HOUR_START = 9
-    DEFAULT_WORKING_HOUR_END = DEFAULT_WORKING_HOUR_START + DEFAULT_WORKING_HOUR_PER_DAY
 
     def __init__(self):
         self.submit_datetime = None
         self.datetime_format = self.DEFAULT_DATETIME_FORMAT
-        self.working_hour_per_day = self.DEFAULT_WORKING_HOUR_PER_DAY
+        self.working_hours_per_day = self.DEFAULT_WORKING_HOURS_PER_DAY
         self.working_hours = [self.DEFAULT_WORKING_HOUR_START,
-                              self.DEFAULT_WORKING_HOUR_START + self.DEFAULT_WORKING_HOUR_PER_DAY]
+                              self.DEFAULT_WORKING_HOUR_START + self.DEFAULT_WORKING_HOURS_PER_DAY]
         self.workdays_to_resolve = None
         self.workhours_to_resolve = None
         self.hour_for_resolve = None
@@ -37,8 +36,8 @@ class CalcDueDate:
 
     def _set_days_hours_to_resolve(self, turnaround_time):
         try:
-            self.workdays_to_resolve = turnaround_time // self.working_hour_per_day
-            self.workhours_to_resolve = turnaround_time % self.working_hour_per_day
+            self.workdays_to_resolve = turnaround_time // self.working_hours_per_day
+            self.workhours_to_resolve = turnaround_time % self.working_hours_per_day
         except TypeError:
             raise CalcDueDateException('Cannot get days and hours for resolve! Turnaround time: {}'.format(
                 turnaround_time))
